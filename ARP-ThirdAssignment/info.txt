@@ -1,0 +1,53 @@
+##########################################INFO##########################################
+--------------------ADVANCED AND ROBOT PROGRAMMING SECOND ASSIGNMENT--------------------
+
+info.txt file contains useful informations about the project.
+
+Miriam Anna Ruggero(4881702)
+Alessio Mura (4861320)
+Ivan Terrile (4851947)
+
+Second assignment of 'Advanced and Robot Programming' class concerns the development
+of an interactive simulator of a (simplified) typical vision system, able to track 
+an object in a 2-D plane.
+
+The repository is organized as follows:
+- the `src` folder contains the source code for all the processes
+- the `include` folder contains all the data structures and methods used within the ncurses framework to build the two GUIs
+
+After compiling the program other two directories will be created:
+
+- the `bin` folder contains all the executable files
+- the `out` folder will contain the picture (.bmp) taken by the processA
+
+
+To compile:
+
+$ bash ./compile.sh
+
+
+After that run the program with the command:
+
+$ bash ./run.sh
+
+
+----------------------------------SIMULATOR BEHAVIOR-----------------------------------
+We simulate the creation of the moving image using an ncurses window (Process A). 
+Using arrow keys, we will move a spot in a window to simulate the perception of the camera. 
+The spot that we will see by moving will produce the creation of a realistic RGB image
+(a circle) in the simulated, shared, video memory.We will use an 80 x 30 ncurses window.
+
+The video memory, for realism, will be 1600 x 600 pixels
+RGB true color 3 (3 bytes/pixel). There will then be a factor of 20x in the location of the interactive
+spot and the corresponding image in the video memory.
+
+The above will be performed by process A, which simulates capture from a video camera and fills
+the video memory.
+
+A second process B will simulate the extraction of a feature from the acquired moving image
+instead. For simplicity, the image in the video memory will be scanned and the center of the image
+will be extracted. In a second ncurses window, also 80 x 30, the position trace of the center of the
+image will be shown.
+
+There will be an additional function conducted by process A, useful for debugging. By pressing a
+button on the window with the mouse, a snapshot of the image memory will be saved on a .bmp file.
