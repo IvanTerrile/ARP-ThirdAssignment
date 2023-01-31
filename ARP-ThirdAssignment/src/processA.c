@@ -95,20 +95,20 @@ void cancel_blue_circle(int radius,int x,int y, bmpfile_t *bmp) {
 int main(int argc, char *argv[])
 {
     // Variable initialization for a server socket connection
-    // int sockfd, newsockfd, portno, clilen, n; 
-    // char buffer[256];
+    int sockfd, newsockfd, portno, clilen, n; 
+    char buffer[256];
 
-    // struct in_addr {
-    //     in_addr_t s_addr;   // 32-bit IPv4 addresses
-    // };
+    struct in_addr {
+        in_addr_t s_addr;   // 32-bit IPv4 addresses
+    };
 
-    // struct sockaddr_in serv_addr, cli_addr;
-    // struct sockaddr_in {
-    //     short sin_family;   // e.g. AF_INET
-    //     u_short sin_port;   // e.g. TCP/UDP Port num
-    //     struct in_addr sin_addr;    // IPv4 address
-    //     char sin_zero[8];   // unused
-    // }; 
+    struct sockaddr_in serv_addr, cli_addr;
+    struct sockaddr_in {
+        short sin_family;   // e.g. AF_INET
+        u_short sin_port;   // e.g. TCP/UDP Port num
+        struct in_addr sin_addr;    // IPv4 address
+        char sin_zero[8];   // unused
+    }; 
 
 
     // Open the log file
@@ -311,15 +311,19 @@ int main(int argc, char *argv[])
         // Close the log file
         close(log_fd);
     }
-    // else if (mode == 2){
-    //     printf("Process 2\n");
-    // }
-    // else if (mode == 3){
-    //     printf("Process 3\n");
-    // }
-
-    while (TRUE){
-        printf("Process terminated\n");
+    else if (mode == 2){
+        int port;
+        printf("Enter the port number where the Server is still waiting: ");
+        scanf("%d", &port);
+    }
+    else if (mode == 3){
+        int port;
+        char address[100];
+        printf("Enter the address where the Client send the information: ");
+        scanf("%s", address);
+        printf("Enter the port where the Client send the information: ");
+        scanf("%d", &port);
+    }
 
     
     return 0;
