@@ -97,6 +97,31 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
+    printf("Choose the execution modality: \n");
+    printf("1. Normal \n");
+    printf("2. Server \n");
+    printf("3. Client \n");
+    int modality;
+    printf("Insert the modality: ");
+    scanf("%d", &modality);
+    while(modality != 1 && modality != 2 && modality != 3)
+    {
+        printf("Wrong input, try again. \n");
+        printf("Insert the modality: ");00
+        scanf("%d", &modality);
+    }
+
+    // Variable declaration in order to get the time
+    time_t rawtime;
+    struct tm *info;
+    time(&rawtime);
+    info = localtime(&rawtime);
+
+    // Write to the log file
+    sprintf(log_buffer, "<Process_A> Modality: %d %s\n", modality, asctime(info));   // Get the time
+    check = write(log_fd, log_buffer, strlen(log_buffer));  // Write to the log file
+    CheckCorrectness(check);    // Check if the write is correct
+
     // Utility variable to avoid trigger resize event on launch
     int first_resize = TRUE;
 
@@ -145,9 +170,6 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    // Variable declaration in order to get the time
-    time_t rawtime;
-    struct tm *info;
 
     // Infinite loop
     while (TRUE)
