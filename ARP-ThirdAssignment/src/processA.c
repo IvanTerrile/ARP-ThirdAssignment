@@ -98,17 +98,38 @@ int main(int argc, char *argv[])
     }
 
     printf("Choose the execution modality: \n");
-    printf("1. Normal \n");
-    printf("2. Server \n");
-    printf("3. Client \n");
+    printf("1. Normal: \n");
+    printf("2. Server: \n");
+    printf("3. Client: \n");
+
     int modality;
-    printf("Insert the modality: ");
-    scanf("%d", &modality);
-    while(modality != 1 && modality != 2 && modality != 3)
-    {
-        printf("Wrong input, try again. \n");
-        printf("Insert the modality: ");00
-        scanf("%d", &modality);
+    char input[100];
+    
+    while (1) {
+        printf("Enter a number: ");
+        scanf("%s", input);
+        int len = strlen(input); 
+        int valid = 1;
+        for (int i = 0; i < len; i++) {
+            if (!isdigit(input[i])) {
+                valid = 0;
+                break;
+            }
+        }
+        
+        if (valid) {
+            modality = atoi(input);
+            if (modality >= 1 && modality <= 3) {
+                break; 
+            } 
+            else {
+                printf("The number is not between 1 and 3. Try again.\n");
+            }
+        } 
+        
+        else {
+            printf("Invalid input. Try again.\n");
+        }
     }
 
     // Variable declaration in order to get the time
