@@ -328,6 +328,13 @@ int main(int argc, char *argv[])
         // Initialize the socket structure
         bzero((char *) &serv_addr, sizeof(serv_addr));  // Initialize serv_addr to 0
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // TODO: Check if the port number is valid, i.e. between 2000 and 65535, not float or string or char
+        // TODO: se ti viene più comodo puoi anche rifare tutta questa parte di controllo, basta che funzioni ahahahah
+        // TODO: solo due cose: 1) input è il buffer che avevi creato tu ieri per leggere la stringa da tastiera e salvarla,
+        //       quindi è inizializzato in cima nel tuo codice di ieri. 2) portno è la variabile che contiene il numero della porta
+        //       quindi il numero che prenderai da tastiera, e che deve rispettare le condizioni che ti ho scritto sopra, va salvato in questa variabile
+
         // Get the port number on wich the server will listen from the command line
         printf("\nEnter the port number where the Server is still listen: ");
         do {
@@ -337,6 +344,7 @@ int main(int argc, char *argv[])
                 printf("Port number must be a number between 2000 and 65535! Insert a new port number: ");
             }
         } while (portno < 2000 || portno > 65535);
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         serv_addr.sin_family = AF_INET; // A short integer value wich contains a code for the address family
         serv_addr.sin_port = htons(portno); // A short integer value wich contains the port number
