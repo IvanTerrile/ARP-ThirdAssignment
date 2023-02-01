@@ -124,35 +124,44 @@ int main(int argc, char *argv[])
     printf("Write 3 Client mode: \n");
 
     int mode;
-    char input[100];
-    int r;
-    
-    while (1) {
-        printf("Enter a number: ");
-        scanf("%s", input);
-        int len = strlen(input); 
-        int valid = 1;
-        for (int i = 0; i < len; i++) {
-            if (!isdigit(input[i])) {
-                valid = 0;
-                break;
-            }
-        }
-        
-        if (valid) {
-            mode = atoi(input);
-            if (mode >= 1 && mode <= 3) {
-                break; 
-            } 
-            else {
-                printf("Invalid input! The number is not 1 or 2 or 3. Try again.\n");
-            }
-        } 
-        
-        else {
-            printf("Invalid input! The number is not 1 or 2 or 3. Try again.\n");
-        }
+    printf("Enter a number: ");
+    while (scanf("%d", &mode) != 1 || mode < 1 || mode > 3) {
+        printf("Invalid input. Please enter a modality between 1 and 3: ");
+        while (getchar() != '\n');
     }
+
+    // vecchio controllo fatto da ale, vediamo se quello sopra è migliore dato che è in poche righe
+    
+    // int mode;
+    // char input[100];
+    // int r;
+    
+    // while (1) {
+    //     printf("Enter a number: ");
+    //     scanf("%s", input);
+    //     int len = strlen(input); 
+    //     int valid = 1;
+    //     for (int i = 0; i < len; i++) {
+    //         if (!isdigit(input[i])) {
+    //             valid = 0;
+    //             break;
+    //         }
+    //     }
+        
+    //     if (valid) {
+    //         mode = atoi(input);
+    //         if (mode >= 1 && mode <= 3) {
+    //             break; 
+    //         } 
+    //         else {
+    //             printf("Invalid input! The number is not 1 or 2 or 3. Try again.\n");
+    //         }
+    //     } 
+        
+    //     else {
+    //         printf("Invalid input! The number is not 1 or 2 or 3. Try again.\n");
+    //     }
+    // }
 
     // Variable declaration in order to get the time
     time_t rawtime;
@@ -337,14 +346,24 @@ int main(int argc, char *argv[])
         //       quindi il numero che prenderai da tastiera, e che deve rispettare le condizioni che ti ho scritto sopra, va salvato in questa variabile
 
         // Get the port number on wich the server will listen from the command line
-        printf("\nEnter the port number where the Server is still listen: ");
-        do {
-            scanf("%s", input);
-            portno = (int)strtol(input , ( char **) NULL , 10);
-            if (portno < 2000 || portno > 65535) {
-                printf("Port number must be a number between 2000 and 65535! Insert a new port number: ");
-            }
-        } while (portno < 2000 || portno > 65535);
+        printf("\n Enter the port number where the Server is still listening: ");
+        int portno;
+        printf("Enter an integer value between 2500 and 65535: ");
+        while (scanf("%d", &portno) != 1 || portno < 2500 || portno > 65535) {
+            printf("Invalid input. Port number must be a number between 2000 and 65535! Insert a new port number:: ");
+            while (getchar() != '\n');
+        }
+
+        // quello seguente è il tuo codice, quello prima è il mio.
+
+        // do {
+        //     scanf("%s", input);
+        //     portno = (int)strtol(input , ( char **) NULL , 10);
+        //     if (portno < 2000 || portno > 65535) {
+        //         printf("Port number must be a number between 2000 and 65535! Insert a new port number: ");
+        //     }
+        // } while (portno < 2000 || portno > 65535);
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         serv_addr.sin_family = AF_INET; // A short integer value wich contains a code for the address family
