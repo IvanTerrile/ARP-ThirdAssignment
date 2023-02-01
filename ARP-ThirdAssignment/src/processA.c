@@ -346,11 +346,9 @@ int main(int argc, char *argv[])
         //       quindi il numero che prenderai da tastiera, e che deve rispettare le condizioni che ti ho scritto sopra, va salvato in questa variabile
 
         // Get the port number on wich the server will listen from the command line
-        printf("\n Enter the port number where the Server is still listening: ");
-        int portno;
-        printf("Enter an integer value between 2500 and 65535: ");
+        printf("\nEnter the port number where the Server is still listening: ");
         while (scanf("%d", &portno) != 1 || portno < 2500 || portno > 65535) {
-            printf("Invalid input. Port number must be a number between 2000 and 65535! Insert a new port number:: ");
+            printf("\nInvalid input. Port number must be a number between 2000 and 65535! \nInsert a new port number:: ");
             while (getchar() != '\n');
         }
 
