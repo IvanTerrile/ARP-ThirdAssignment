@@ -424,9 +424,7 @@ int main(int argc, char *argv[])
 
         bzero((char *) &serv_addr, sizeof(serv_addr));
         serv_addr.sin_family = AF_INET;
-        bcopy((char *)server->h_addr,
-        (char *)&serv_addr.sin_addr.s_addr,
-        server->h_length);
+        bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
         serv_addr.sin_port = htons(portno); 
 
         if (connect(sockfd,&serv_addr,sizeof(serv_addr)) < 0)
