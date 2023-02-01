@@ -19,6 +19,7 @@
 #include <sys/types.h>  // Includes many data types used in system calls
 #include <sys/socket.h> // Includes a number of definitions of structures need for a socket
 #include <netinet/in.h> // Includes constants and structures needed for internet domain addresses   //
+#include <netdb.h> 
 
 // Function called when a system call for the socket fails
 void error(char *msg, int number_mode)
@@ -318,11 +319,11 @@ int main(int argc, char *argv[])
 
         char buffer[256];   // Buffer to store the message
 
-        struct sockaddr_in serv_addr, cli_addr; // Structure containing an internet address
+        struct sockaddr_in serv_addr, cli_addr; // Structure containing an internet address (server and client address)
 
         // Create a new socket with address domain AF_INET, type SOCK_STREAM, protocol 0
         sockfd = socket(AF_INET, SOCK_STREAM, 0);   
-        if (sockfd == -1)
+        if (sockfd < 0)
             error("ERROR opening socket", mode); 
 
         // Initialize the socket structure
@@ -378,14 +379,61 @@ int main(int argc, char *argv[])
             error("ERROR writing to socket", mode);
     }
     else if (mode == 3){
-        int port;
-        char address[100];
-        printf("Enter the address where the Client send the information: ");
+        // int port;
+        // char address[100];
+        // printf("Enter the address where the Client send the information: ");
+        // scanf("%s", address);
+        // printf("Enter the port where the Client send the information: ");
+        // scanf("%d", &port);
+
+        // Variable initialization for a server socket connection
+        int sockfd;  // File descriptors for the socket 
+        int portno, n;  // Port number on wich the server accept the connecgtion,
+                        // and return value for read and write calls
+
+        struct sockaddr_in serv_addr; // Structure containing an internet address (the server address)
+        struct hostent *server; // A pointer to a structure of type hostent
+
+        char buffer[256];   // Buffer to store the message
+
+        char address[100]; 
+        printf("\nEnter the address of the Server where the Client send the information: ");
         scanf("%s", address);
-        printf("Enter the port where the Client send the information: ");
-        scanf("%d", &port);
+        printf("\nEnter the port of the Server where the Client send the information: ");
+        scanf("%d", &portno);
+        
+        sockfd = socket(AF_INET, SOCK_STREAM, 0);
+        if (sockfd < 0)
+            error("ERROR opening socket", mode);
+
+        server = gethostbyname(address);
+        if (server == NULL) {
+            fprintf(stderr,"ERROR, no such host\n");
+            exit(0);
+        } 
+
+        bzero((char *) &serv_addr, sizeof(serv_addr));
+        serv_addr.sin_family = AF_INET;
+        bcopy((char *)server->h_addr,
+        (char *)&serv_addr.sin_addr.s_addr,
+        server->h_length);
+        serv_addr.sin_port = htons(portno); 
+
+        if (connect(sockfd,&serv_addr,sizeof(serv_addr)) < 0)
+            error("ERROR connecting", mode);
+
+        printf("Please enter the message: ");
+        bzero(buffer,256);
+        fgets(buffer,255,stdin);
+        n = write(sockfd,buffer,strlen(buffer));
+        if (n < 0)
+            error("ERROR writing to socket", mode);
+        bzero(buffer,256);
+        n = read(sockfd,buffer,255);
+        if (n < 0)
+            error("ERROR reading from socket", mode);
+        printf("%s\n",buffer); 
     }
 
-    
     return 0;
 }
