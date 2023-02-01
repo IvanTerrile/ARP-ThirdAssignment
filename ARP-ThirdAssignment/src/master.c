@@ -104,7 +104,7 @@ int watchdog()
     }
 
     // If the counter is greater than 60, kill the child processes
-    if (counter > 60)
+    if (counter > 300)
     {
       // Kill all the processes
       kill(pid_procA, SIGKILL);

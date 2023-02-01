@@ -1,7 +1,18 @@
 Scriviamo qui i problemi trovati, così non ce ne dimentichiamo:
-1) quando si usa la modalità server, il server rimane in attesa su una porta sino a che non riceve qualcosa,
+
+1) RISOLTO METTENDO IL WATCHDOG A 300 SECONDI INVECE DI 60 SECONDI 
+   quando si usa la modalità server, il server rimane in attesa su una porta sino a che non riceve qualcosa,
    ma il watchdog chiude tutto dopo tot secondi. Quindi il server non riesce a rimanere in attesa per più del 
    tempo che il watchdog impiega per chiudere tutto.
 
+
 2) controllare se i nuovi errori introdotti con i socket vengono scritti nel log file o comunque che si vedano 
    da qualche parte quando vengono stampati.
+
+3) fare in modo che se il numero della modalità da eseguire o il numero di porta è un float dia errore
+
+
+//////////////////////////////////////////////////////////////////////
+Per collegarsi ad una WSL remota usata come SERVER:
+aprire una powershell e eseguire questa riga di codice prima di eseguire il resto.
+netsh interface portproxy add v4tov4 listenport=4000 listenaddress=0.0.0.0 connectport=4000 connectaddress="indirizzo IPv4 dell PC usato come SERVER"
