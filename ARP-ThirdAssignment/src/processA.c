@@ -124,6 +124,7 @@ int main(int argc, char *argv[])
 
     int mode;
     char input[100];
+    int r;
     
     while (1) {
         printf("Enter a number: ");
@@ -319,11 +320,6 @@ int main(int argc, char *argv[])
 
         struct sockaddr_in serv_addr, cli_addr; // Structure containing an internet address
 
-        if (argc < 2) {
-            fprintf(stderr,"ERROR, no port provided\n");
-            exit(1);
-        }
-
         // Create a new socket with address domain AF_INET, type SOCK_STREAM, protocol 0
         sockfd = socket(AF_INET, SOCK_STREAM, 0);   
         if (sockfd == -1)
@@ -333,8 +329,14 @@ int main(int argc, char *argv[])
         bzero((char *) &serv_addr, sizeof(serv_addr));  // Initialize serv_addr to 0
 
         // Get the port number on wich the server will listen from the command line
-        printf("Enter the port number where the Server is still listen: ");
-        portno = atoi(argv[1]); 
+        printf("\nEnter the port number where the Server is still listen: ");
+        do {
+            scanf("%s", input);
+            portno = (int)strtol(input , ( char **) NULL , 10);
+            if (portno < 2000 || portno > 65535) {
+                printf("Port number must be a number between 2000 and 65535! Insert a new port number: ");
+            }
+        } while (portno < 2000 || portno > 65535);
 
         serv_addr.sin_family = AF_INET; // A short integer value wich contains a code for the address family
         serv_addr.sin_port = htons(portno); // A short integer value wich contains the port number
