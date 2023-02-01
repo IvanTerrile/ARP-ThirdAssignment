@@ -398,13 +398,6 @@ int main(int argc, char *argv[])
             error("ERROR writing to socket", mode);
     }
     else if (mode == 3){
-        // int port;
-        // char address[100];
-        // printf("Enter the address where the Client send the information: ");
-        // scanf("%s", address);
-        // printf("Enter the port where the Client send the information: ");
-        // scanf("%d", &port);
-
         // Variable initialization for a server socket connection
         int sockfd;  // File descriptors for the socket 
         int portno, n;  // Port number on wich the server accept the connecgtion,
