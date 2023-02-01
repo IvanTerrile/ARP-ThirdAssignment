@@ -14,10 +14,24 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <errno.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h> 
+
+// Include libraries for socket connection
+#include <sys/types.h>  // Includes many data types used in system calls
+#include <sys/socket.h> // Includes a number of definitions of structures need for a socket
+#include <netinet/in.h> // Includes constants and structures needed for internet domain addresses   //
+
+// Function called when a system call for the socket fails
+void error(char *msg, int number_mode)
+{
+    if(number_mode == 2){
+        perror(msg);
+        exit(1);
+    }
+    else if(number_mode == 3){
+        perror(msg);
+        exit(0);
+    }
+} 
 
 // Declaration variables for bmp file
 const int width = 1600;
@@ -94,23 +108,6 @@ void cancel_blue_circle(int radius,int x,int y, bmpfile_t *bmp) {
 
 int main(int argc, char *argv[])
 {
-    // Variable initialization for a server socket connection
-    int sockfd, newsockfd, portno, clilen, n; 
-    char buffer[256];
-
-    struct in_addr {
-        in_addr_t s_addr;   // 32-bit IPv4 addresses
-    };
-
-    struct sockaddr_in serv_addr, cli_addr;
-    struct sockaddr_in {
-        short sin_family;   // e.g. AF_INET
-        u_short sin_port;   // e.g. TCP/UDP Port num
-        struct in_addr sin_addr;    // IPv4 address
-        char sin_zero[8];   // unused
-    }; 
-
-
     // Open the log file
     if ((log_fd = open("processA.log",O_WRONLY|O_APPEND|O_CREAT, 0666)) == -1)
     {
@@ -312,9 +309,63 @@ int main(int argc, char *argv[])
         close(log_fd);
     }
     else if (mode == 2){
-        int port;
-        printf("Enter the port number where the Server is still waiting: ");
-        scanf("%d", &port);
+        // Variable initialization for a server socket connection
+        int sockfd, newsockfd;  // File descriptors for the socket and the new socket
+        int portno, clilen, n;  // Port number on wich the server accept the connecgtion,
+                                // the size of the address of the client, 
+                                // and return value for read and write calls
+
+        char buffer[256];   // Buffer to store the message
+
+        struct sockaddr_in serv_addr, cli_addr; // Structure containing an internet address
+
+        if (argc < 2) {
+            fprintf(stderr,"ERROR, no port provided\n");
+            exit(1);
+        }
+
+        // Create a new socket with address domain AF_INET, type SOCK_STREAM, protocol 0
+        sockfd = socket(AF_INET, SOCK_STREAM, 0);   
+        if (sockfd == -1)
+            error("ERROR opening socket", mode); 
+
+        // Initialize the socket structure
+        bzero((char *) &serv_addr, sizeof(serv_addr));  // Initialize serv_addr to 0
+
+        // Get the port number on wich the server will listen from the command line
+        printf("Enter the port number where the Server is still listen: ");
+        portno = atoi(argv[1]); 
+
+        serv_addr.sin_family = AF_INET; // A short integer value wich contains a code for the address family
+        serv_addr.sin_port = htons(portno); // A short integer value wich contains the port number
+                                            // The function htons converts a port number in host byte order 
+                                            // to a port number in network byte order
+        serv_addr.sin_addr.s_addr = INADDR_ANY; // A structure of type struct in_addr which contains only a single field, 
+                                                // unsigned long s_addr, wich contains the IP address of the host
+        
+        // Bind the socket to the address and port number specified in serv_addr
+        if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
+            error("ERROR on binding", mode);
+
+        listen(sockfd,5);   // Listen for connections on a socket
+
+        // Accept a connection on a socket
+        clilen = sizeof(cli_addr);
+        newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
+        if (newsockfd < 0)
+            error("ERROR on accept", mode);
+
+        // Read from the socket (from the client to the server)
+        bzero(buffer,256);
+        n = read(newsockfd,buffer,255);
+        if (n < 0) 
+            error("ERROR reading from socket", mode);
+        printf("Here is the message: %s\n",buffer); 
+
+        // Write to the socket (from the server to the client)
+        n = write(newsockfd,"I got your message",18);
+        if (n < 0) 
+            error("ERROR writing to socket", mode);
     }
     else if (mode == 3){
         int port;
