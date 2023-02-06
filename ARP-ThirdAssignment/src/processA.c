@@ -414,9 +414,10 @@ int main(int argc, char *argv[])
 
         if (connect(sockfd,&serv_addr,sizeof(serv_addr)) < 0)
             error("ERROR connecting", mode);
-
-        printf("Please enter the message: ");
-        sleep(5);
+        else{
+            printf("Please enter the message: ");
+            sleep(5);
+        }
 
         //Write to the socket (from the client to the server)
         bzero(buffer,256); 
