@@ -26,10 +26,12 @@ void error(char *msg, int number_mode)
 {
     if(number_mode == 2){
         perror(msg);
+        sleep(5);
         exit(1);
     }
     else if(number_mode == 3){
         perror(msg);
+        sleep(5);
         exit(0);
     }
 } 
@@ -414,10 +416,12 @@ int main(int argc, char *argv[])
             error("ERROR connecting", mode);
 
         printf("Please enter the message: ");
+        sleep(5);
 
         //Write to the socket (from the client to the server)
-        bzero(buffer,256);
-        fgets(buffer,255,stdin);
+        bzero(buffer,256); 
+        //fgets(buffer,255,stdin); 
+        scanf("%s", buffer);
         n = write(sockfd,buffer,strlen(buffer));
         if (n < 0)
             error("ERROR writing to socket", mode);
