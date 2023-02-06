@@ -374,6 +374,8 @@ int main(int argc, char *argv[])
         // Bind the socket to the address and port number specified in serv_addr
         if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
             error("ERROR on binding", mode);
+        else
+            printf("\nServer is listening on port %d\n...", portno);
 
         listen(sockfd,5);   // Listen for connections on a socket
 
