@@ -422,7 +422,7 @@ int main(int argc, char *argv[])
         serv_addr.sin_port = htons(portno); 
 
 
-        r = connect(sockfd,(struct sockaddr *)&serv_addr,sizeof(serv_addr));
+        r = connect(sockfd,(struct sockaddr_in *)&serv_addr,sizeof(serv_addr));
 
         if(r != 0){
             printf("Error during connection...\n");
