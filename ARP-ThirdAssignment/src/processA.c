@@ -370,7 +370,7 @@ int main(int argc, char *argv[])
             error("ERROR on accept", mode);
 ///////
 
-//TODO: fare controlli su read e write
+
         // Read from the socket (from the client to the server)
         bzero(buffer,256);
         n = read(newsockfd,buffer,255);
