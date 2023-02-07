@@ -120,13 +120,13 @@ int main(int argc, char *argv[])
     }
 
     // Control to choose the execution mode
-    printf("Choose the execution mode: \n");
-    printf("Write 1 for Normal mode: \n");
-    printf("Write 2 for Server mode: \n");
-    printf("Write 3 Client mode: \n");
+    printf("Select execution mode: \n 1. Normal mode \n 2. Server mode \n 3. Client mode \n");
+    // printf("Write 1 for Normal mode: \n");
+    // printf("Write 2 for Server mode: \n");
+    // printf("Write 3 Client mode: \n");
 
     int mode;
-    printf("Enter a number: ");
+    printf("Enter mode number: ");
     while (scanf("%d", &mode) != 1 || mode < 1 || mode > 3) {
         printf("Invalid input. Please enter a modality between 1 and 3: ");
         while (getchar() != '\n');
@@ -348,17 +348,18 @@ int main(int argc, char *argv[])
         }
 
         serv_addr.sin_family = AF_INET; // A short integer value wich contains a code for the address family
+        serv_addr.sin_addr.s_addr = INADDR_ANY; // A structure of type struct in_addr which contains only a single field, 
+                                                // unsigned long s_addr, wich contains the IP address of the host
         serv_addr.sin_port = htons(portno); // A short integer value wich contains the port number
                                             // The function htons converts a port number in host byte order 
                                             // to a port number in network byte order
-        serv_addr.sin_addr.s_addr = INADDR_ANY; // A structure of type struct in_addr which contains only a single field, 
-                                                // unsigned long s_addr, wich contains the IP address of the host
+        
         
         // Bind the socket to the address and port number specified in serv_addr
         if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
             error("ERROR on binding", mode);
         else
-            printf("\nServer is listening on port %d\n...", portno);
+            printf("\nServer is listening to the port %d\n...", portno);
 
         listen(sockfd,5);   // Listen for connections on a socket
 
@@ -367,7 +368,9 @@ int main(int argc, char *argv[])
         newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
         if (newsockfd < 0)
             error("ERROR on accept", mode);
+///////
 
+//TODO: fare controlli su read e write
         // Read from the socket (from the client to the server)
         bzero(buffer,256);
         n = read(newsockfd,buffer,255);
@@ -409,20 +412,25 @@ int main(int argc, char *argv[])
 
         bzero((char *) &serv_addr, sizeof(serv_addr));
         serv_addr.sin_family = AF_INET;
-        bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+
+        bcopy((char *)server->h_addr, 
+        (char *)&serv_addr.sin_addr.s_addr, 
+        server->h_length);
+
         serv_addr.sin_port = htons(portno); 
 
-        if (connect(sockfd,&serv_addr,sizeof(serv_addr)) < 0)
+        if (connect(sockfd, &serv_addr,sizeof(serv_addr)) < 0)
             error("ERROR connecting", mode);
         else{
             printf("Please enter the message: ");
+            scanf("%s", buffer);
             sleep(5);
         }
 
         //Write to the socket (from the client to the server)
-        bzero(buffer,256); 
+        //bzero(buffer,256); 
         //fgets(buffer,255,stdin); 
-        scanf("%s", buffer);
+        //scanf("%s", buffer);
         n = write(sockfd,buffer,strlen(buffer));
         if (n < 0)
             error("ERROR writing to socket", mode);
