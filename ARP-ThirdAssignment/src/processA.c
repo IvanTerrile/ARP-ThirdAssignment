@@ -394,9 +394,7 @@ int main(int argc, char *argv[])
 
         char buffer[256];   // Buffer to store the message
 
-        char address[100];
-        int r = -1;
-        do {
+        char address[100]; 
         printf("\nEnter the address of the Server where the Client send the information: ");
         scanf("%s", address);
         printf("\nEnter the port of the Server where the Client send the information: ");
@@ -421,26 +419,13 @@ int main(int argc, char *argv[])
 
         serv_addr.sin_port = htons(portno); 
 
-
-        r = connect(sockfd,(struct sockaddr_in *)&serv_addr,sizeof(serv_addr));
-
-        if(r != 0){
-            printf("Error during connection...\n");
-        } 
+        if (connect(sockfd, (struct sockaddr *)&serv_addr,sizeof(serv_addr)) < 0)
+            error("ERROR connecting", mode);
         else{
             printf("Please enter the message: ");
             scanf("%s", buffer);
             sleep(5);
         }
-        } while (r != 0);
-
-        // if (connect(sockfd, (struct sockaddr *)&serv_addr,sizeof(serv_addr)) < 0)
-        //     error("ERROR connecting", mode);
-        // else{
-        //     printf("Please enter the message: ");
-        //     scanf("%s", buffer);
-        //     sleep(5);
-        // }
 
         //Write to the socket (from the client to the server)
         //bzero(buffer,256); 
@@ -455,8 +440,7 @@ int main(int argc, char *argv[])
         n = read(sockfd,buffer,255);
         if (n < 0)
             error("ERROR reading from socket", mode);
-        printf("%s\n",buffer);
-    
+        printf("%s\n",buffer); 
     }
 
     return 0;
