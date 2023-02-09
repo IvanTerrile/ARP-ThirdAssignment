@@ -9,7 +9,7 @@ Scriviamo qui i problemi trovati, così non ce ne dimentichiamo:
 2) controllare se i nuovi errori introdotti con i socket vengono scritti nel log file o comunque che si vedano 
    da qualche parte quando vengono stampati.
 
-3) fare in modo che se il numero della modalità da eseguire o il numero di porta è un float dia errore
+
 
 
 //////////////////////////////////////////////////////////////////////

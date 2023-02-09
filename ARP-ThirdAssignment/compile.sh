@@ -1,14 +1,11 @@
-# # Compile process A
-# gcc src/processA.c -lpthread -lncurses -lbmp -lm -o bin/processA &
+# Compile process A
+gcc src/processA.c -lpthread -lncurses -lbmp -lm -o bin/processA &
 
-# # Compile process B
-# gcc src/processB.c -lpthread -lncurses -lbmp -lm -o bin/processB &
-
-# # Compile master process
-# gcc src/master.c -o bin/master
-
+# Compile process B
+gcc src/processB.c -lpthread -lncurses -lbmp -lm -o bin/processB &
 
 # Compile master process
-gcc src/server.c -o src/server
+gcc src/master.c -o bin/master
 
-gcc src/client.c -o src/client
+
+
