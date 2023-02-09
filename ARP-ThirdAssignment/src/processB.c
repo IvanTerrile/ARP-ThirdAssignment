@@ -85,13 +85,7 @@ void cancel_blue_circle(int radius,int x,int y, bmpfile_t *bmp) {
 
 int main(int argc, char const *argv[])
 {
-    // Open the log file
-    if ((log_fd = open("processB.log",O_WRONLY|O_APPEND|O_CREAT, 0666)) == -1)
-    {
-        // If the file could not be opened, print an error message and exit
-        perror("Error opening command file");   // Print the error message
-        exit(1);
-    }
+    
 
     // Utility variable to avoid trigger resize event on launch
     int first_resize = TRUE;
@@ -152,16 +146,12 @@ int main(int argc, char const *argv[])
         exit(1);
     }
 
-    // Variable declaration in order to get the time
-    time_t rawtime;
-    struct tm *info;
+   
 
     // Infinite loop
     while (TRUE) {
 
-        // Get current time
-        time(&rawtime);
-        info = localtime(&rawtime);
+     
 
         // Get input in non-blocking mode
         int cmd = getch();
@@ -233,9 +223,7 @@ int main(int argc, char const *argv[])
                 }
             }
 
-            sprintf(log_buffer, "<Process_B> Position of center updated: %s\n", asctime(info));
-            check = write(log_fd, log_buffer, strlen(log_buffer));  // Write the log message
-            CheckCorrectness(check);    // Check if the write is correct
+            
 
             mvaddch(floor((int)((y_cord[y-1]+radius)/20)),floor((int)(x_cord[y-1]/20)), '0');   
 
@@ -260,8 +248,6 @@ int main(int argc, char const *argv[])
 
     endwin();   // End the window
 
-    // Close the log file
-    close(log_fd);
 
     return 0;
 }

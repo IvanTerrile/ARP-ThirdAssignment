@@ -60,16 +60,6 @@ int log_fd;
 // Variable to store the value of the write function
 int check;
 
-// Function to check the correctness of the operation just done
-void CheckCorrectness(int c) 
-{
-    if(c == -1) 
-    {
-        close(log_fd);  // Close the log file
-        perror("Error in writing function");    // Print the error message
-        exit(1);
-    }
-}
 
 // Function to draw a blue circle
 void draw_blue_circle(int radius,int x,int y, bmpfile_t *bmp) {
@@ -110,13 +100,7 @@ void cancel_blue_circle(int radius,int x,int y, bmpfile_t *bmp) {
 }
 
 int main(int argc, char *argv[]){
-    // Open the log file
-    if ((log_fd = open("processA.log",O_WRONLY|O_APPEND|O_CREAT, 0666)) == -1)
-    {
-        // If the file could not be opened, print an error message and exit
-        perror("Error opening command file");
-        exit(1);
-    }
+    
 
     // Control to choose the execution mode
     printf("Select execution mode: \n 1. Normal mode \n 2. Server mode \n 3. Client mode \n");
@@ -164,16 +148,7 @@ int main(int argc, char *argv[]){
     //     }
     // }
 
-    // Variable declaration in order to get the time
-    time_t rawtime;
-    struct tm *info;
-    time(&rawtime);
-    info = localtime(&rawtime);
-
-    // Write to the log file
-    sprintf(log_buffer, "<Process_A> Modality: %d %s\n", mode, asctime(info));   // Get the time
-    check = write(log_fd, log_buffer, strlen(log_buffer));  // Write to the log file
-    CheckCorrectness(check);    // Check if the write is correct
+   
 
     // Delcare circle radius
     int radius = 30;
@@ -336,9 +311,7 @@ int main(int argc, char *argv[]){
     // Infinite loop
     while (TRUE)
     {
-        // Get current time
-        time(&rawtime);
-        info = localtime(&rawtime);
+    
 
         // Get input in non-blocking mode
         int cmd = getch();
@@ -362,10 +335,7 @@ int main(int argc, char *argv[]){
                 if(check_button_pressed(print_btn, &event)) {
                     mvprintw(LINES - 1, 1, "Print button pressed"); // Print a message on the screen
 
-                    // Write to the log file
-                    sprintf(log_buffer, "<Process_A> Print button pressed: %s\n", asctime(info));   // Get the time
-                    check = write(log_fd, log_buffer, strlen(log_buffer));  // Write to the log file
-                    CheckCorrectness(check);    // Check if the write is correct
+                    
 
                     bmp_save(bmp, "out/image.bmp"); // Save the bmp file
 
@@ -386,10 +356,7 @@ int main(int argc, char *argv[]){
             if(com == KEY_LEFT || com == KEY_RIGHT || com == KEY_UP || com == KEY_DOWN){
                 sem_wait(semaphore);    // Wait for the semaphore
                 
-                // Write to the log file
-                sprintf(log_buffer, "<Process_A> Keyboard button pressed: %s\n", asctime(info));    // Get the time
-                check = write(log_fd, log_buffer, strlen(log_buffer));  // Write to the log file
-                CheckCorrectness(check);    // Check if the write is correct
+                
                 
                 move_circle(com);   // Move the circle
                 draw_circle();  // Draw the circle
@@ -427,10 +394,6 @@ int main(int argc, char *argv[]){
             
             sem_wait(semaphore);    // Wait for the semaphore
             
-            // Write to the log file
-            sprintf(log_buffer, "<Process_A> Keyboard button pressed: %s\n", asctime(info));    // Get the time
-            check = write(log_fd, log_buffer, strlen(log_buffer));  // Write to the log file
-            CheckCorrectness(check);    // Check if the write is correct
             
             if (mode == 3){
             char str_cmd[5];
@@ -478,8 +441,6 @@ int main(int argc, char *argv[]){
     bmp_destroy(bmp);   // Destroy the bmp file
     endwin();   // End the window
 
-    // Close the log file
-    close(log_fd); 
 
 
 
