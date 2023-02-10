@@ -51,14 +51,14 @@ struct shared
 sem_t *semaphore;   // Semaphore
 sem_t *semaphore2;  // Semaphore
 
-// Buffer to store the string to write to the log file
-char log_buffer[100];
+// // Buffer to store the string to write to the log file
+// char log_buffer[100];
 
-// File descriptor for the log file
-int log_fd;
+// // File descriptor for the log file
+// int log_fd;
 
-// Variable to store the value of the write function
-int check;
+// // Variable to store the value of the write function
+// int check;
 
 
 // Function to draw a blue circle
@@ -329,26 +329,33 @@ int main(int argc, char *argv[]){
             }
         }
 
+        //if (mode == 1 || mode == 3){
         // Else, if user presses print button...
-        if(cmd == KEY_MOUSE) {
+        else if(cmd == KEY_MOUSE) {
             if(getmouse(&event) == OK) {
-                if(check_button_pressed(print_btn, &event)) {
-                    mvprintw(LINES - 1, 1, "Print button pressed"); // Print a message on the screen
+                if (mode == 1 || mode == 3){
+                    if(check_button_pressed(print_btn, &event)) {
+                        mvprintw(LINES - 1, 1, "Print button pressed"); // Print a message on the screen
+                        
+                        
 
-                    
+                        bmp_save(bmp, "out/image.bmp"); // Save the bmp file
+                        // if (mode == 3){
 
-                    bmp_save(bmp, "out/image.bmp"); // Save the bmp file
+                        // }
 
-                    refresh();
-                    sleep(1);
-                    for(int j = 0; j < COLS - BTN_SIZE_X - 2; j++) {
-                        mvaddch(LINES - 1, j, ' '); // Clear the message on the screen
+                        refresh();
+                        sleep(1);
+                        for(int j = 0; j < COLS - BTN_SIZE_X - 2; j++) {
+                            mvaddch(LINES - 1, j, ' '); // Clear the message on the screen
+                        }
                     }
                 }
             }
-        }    
+        }
+            
 
-        if (mode == 2){
+        else if (mode == 2){
             char input_string[5];
             recv(newsockfd, input_string, 1024, 0);
             int com = atoi(input_string);
@@ -387,48 +394,47 @@ int main(int argc, char *argv[]){
         }
 
         
-
-        // If input is an arrow key, move circle accordingly...
-        else if(cmd == KEY_LEFT || cmd == KEY_RIGHT || cmd == KEY_UP || cmd == KEY_DOWN) 
-        {
-            
-            sem_wait(semaphore);    // Wait for the semaphore
-            
-            
-            if (mode == 3){
-            char str_cmd[5];
-            snprintf(str_cmd, 5, "%d",cmd);
-            send(sockfd, str_cmd, strlen(str_cmd), 0);
-            }
-
-            move_circle(cmd);   // Move the circle
-            draw_circle();  // Draw the circle
-    
-            cancel_blue_circle(radius,x,y, bmp);    // Cancel the circle
-            for (int i = 0; i < 1600; i++) {
-                for (int j = 0; j < 600; j++) {
-                    ShmPTR->m[i][j] = 0;    // Set the shared memory to 0
+        else if (mode == 1 || mode == 3){
+            // If input is an arrow key, move circle accordingly...
+            if(cmd == KEY_LEFT || cmd == KEY_RIGHT || cmd == KEY_UP || cmd == KEY_DOWN) 
+            {
+                
+                sem_wait(semaphore);    // Wait for the semaphore
+                
+                
+                if (mode == 3){
+                char str_cmd[5];
+                snprintf(str_cmd, 5, "%d",cmd);
+                send(sockfd, str_cmd, strlen(str_cmd), 0);
                 }
-            }
-            
-            draw_blue_circle(radius,circle.x,circle.y, bmp);    // Draw the circle
-            
-            // Write to the shared memory
-            for (int i = 0; i < 1600; i++) {
-                for (int j = 0; j < 600; j++) {
-                    rgb_pixel_t *pixel = bmp_get_pixel(bmp, i, j);  // Get the pixel
-                    
-                    // If the pixel is blue, set the shared memory to 1
-                    if ((pixel->blue == 255) && (pixel->red == 0) && (pixel->green==0) && (pixel->alpha==0)) {
-                        ShmPTR->m[i][j] = 1;
+
+                move_circle(cmd);   // Move the circle
+                draw_circle();  // Draw the circle
+        
+                cancel_blue_circle(radius,x,y, bmp);    // Cancel the circle
+                for (int i = 0; i < 1600; i++) {
+                    for (int j = 0; j < 600; j++) {
+                        ShmPTR->m[i][j] = 0;    // Set the shared memory to 0
                     }
                 }
-            }
+                
+                draw_blue_circle(radius,circle.x,circle.y, bmp);    // Draw the circle
+                
+                // Write to the shared memory
+                for (int i = 0; i < 1600; i++) {
+                    for (int j = 0; j < 600; j++) {
+                        rgb_pixel_t *pixel = bmp_get_pixel(bmp, i, j);  // Get the pixel
+                        
+                        // If the pixel is blue, set the shared memory to 1
+                        if ((pixel->blue == 255) && (pixel->red == 0) && (pixel->green==0) && (pixel->alpha==0)) {
+                            ShmPTR->m[i][j] = 1;
+                        }
+                    }
+                }
 
-            sem_post(semaphore2);     // Post the semaphore  
-        } 
-
-        
+                sem_post(semaphore2);     // Post the semaphore  
+            } 
+        }    
 
     }
 
@@ -441,10 +447,6 @@ int main(int argc, char *argv[]){
     bmp_destroy(bmp);   // Destroy the bmp file
     endwin();   // End the window
 
-
-
-
-    
 
     return 0;
     }

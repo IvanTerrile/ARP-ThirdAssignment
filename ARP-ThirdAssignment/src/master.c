@@ -12,14 +12,14 @@
 pid_t pid_procA;  // PID of process A
 pid_t pid_procB;  // PID of process B
 
-// Buffer to store the string to write to the log file
-char log_buffer[100];   
+// // Buffer to store the string to write to the log file
+// char log_buffer[100];   
 
-// File descriptor for the log file
-int log_fd;  
+// // File descriptor for the log file
+// int log_fd;  
 
-// Variable to store the value of the write function
-int check;
+// // Variable to store the value of the write function
+// int check;
 
 
 
@@ -121,15 +121,15 @@ int main() {
   char * arg_list_B[] = { "/usr/bin/konsole", "-e", "./bin/processB", NULL };
   pid_procB = spawn("/usr/bin/konsole", arg_list_B);
 
-  // Create the log files and open them
-  int fd_pa = open("processA.log", O_CREAT | O_RDWR, 0666);
-  int fd_pb = open("processB.log", O_CREAT | O_RDWR, 0666);
+  // // Create the log files and open them
+  // int fd_pa = open("processA.log", O_CREAT | O_RDWR, 0666);
+  // int fd_pb = open("processB.log", O_CREAT | O_RDWR, 0666);
   
-  // Check corecctness
-  if(fd_pa <0 || fd_pb <0)
-  {
-    printf("Error opening FILE");   // Print the error
-  }
+  // // Check corecctness
+  // if(fd_pa <0 || fd_pb <0)
+  // {
+  //   printf("Error opening FILE");   // Print the error
+  // }
  
  
 
