@@ -390,6 +390,5 @@ int main(int argc, char *argv[]){
     bmp_destroy(bmp);   // Destroy the bmp file
     endwin();   // End the window
 
-
     return 0;
 }
