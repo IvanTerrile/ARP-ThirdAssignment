@@ -328,6 +328,7 @@ int main(int argc, char *argv[]){
             }
             else if (com == KEY_MOUSE) 
             {
+                mvprintw(LINES - 1, 1, "Screen taken!");
                 bmp_save(bmp, "out/image.bmp");
                 refresh();
                 sleep(1);
