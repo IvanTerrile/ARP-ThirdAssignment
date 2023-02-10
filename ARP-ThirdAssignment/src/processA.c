@@ -362,7 +362,6 @@ int main(int argc, char *argv[]){
                 sem_post(semaphore2);     // Post the semaphore  
             } 
         }    
-
     }
 
     sem_close(semaphore);   // Close the semaphore
