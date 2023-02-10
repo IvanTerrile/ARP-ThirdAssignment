@@ -367,7 +367,7 @@ int main(int argc, char *argv[]){
                 //sem_wait(semaphore);    // Wait for the semaphore
                 
                 
-                
+            //fanculo  
             move_circle(com);   // Move the circle
             draw_circle();  // Draw the circle
         
