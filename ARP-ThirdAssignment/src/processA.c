@@ -361,35 +361,35 @@ int main(int argc, char *argv[]){
             int com = atoi(input_string);
 
             if(com == KEY_LEFT || com == KEY_RIGHT || com == KEY_UP || com == KEY_DOWN){
-                sem_wait(semaphore);    // Wait for the semaphore
+                //sem_wait(semaphore);    // Wait for the semaphore
                 
                 
                 
                 move_circle(com);   // Move the circle
                 draw_circle();  // Draw the circle
         
-                cancel_blue_circle(radius,x,y, bmp);    // Cancel the circle
-                for (int i = 0; i < 1600; i++) {
-                    for (int j = 0; j < 600; j++) {
-                        ShmPTR->m[i][j] = 0;    // Set the shared memory to 0
-                    }
-                }
+                // cancel_blue_circle(radius,x,y, bmp);    // Cancel the circle
+                // for (int i = 0; i < 1600; i++) {
+                //     for (int j = 0; j < 600; j++) {
+                //         ShmPTR->m[i][j] = 0;    // Set the shared memory to 0
+                //     }
+                // }
                 
-                draw_blue_circle(radius,circle.x,circle.y, bmp);    // Draw the circle
+                // draw_blue_circle(radius,circle.x,circle.y, bmp);    // Draw the circle
                 
-                // Write to the shared memory
-                for (int i = 0; i < 1600; i++) {
-                    for (int j = 0; j < 600; j++) {
-                        rgb_pixel_t *pixel = bmp_get_pixel(bmp, i, j);  // Get the pixel
+                // // Write to the shared memory
+                // for (int i = 0; i < 1600; i++) {
+                //     for (int j = 0; j < 600; j++) {
+                //         rgb_pixel_t *pixel = bmp_get_pixel(bmp, i, j);  // Get the pixel
                         
-                        // If the pixel is blue, set the shared memory to 1
-                        if ((pixel->blue == 255) && (pixel->red == 0) && (pixel->green==0) && (pixel->alpha==0)) {
-                            ShmPTR->m[i][j] = 1;
-                        }
-                    }
-                }
+                //         // If the pixel is blue, set the shared memory to 1
+                //         if ((pixel->blue == 255) && (pixel->red == 0) && (pixel->green==0) && (pixel->alpha==0)) {
+                //             ShmPTR->m[i][j] = 1;
+                //         }
+                //     }
+                // }
 
-                sem_post(semaphore2);     // Post the semaphore 
+                // sem_post(semaphore2);     // Post the semaphore 
             }
         }
 
