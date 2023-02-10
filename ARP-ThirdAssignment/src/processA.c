@@ -267,8 +267,15 @@ int main(int argc, char *argv[]){
                     if(check_button_pressed(print_btn, &event)) {
                         mvprintw(LINES - 1, 1, "Print button pressed"); // Print a message on the screen
                         
-                        bmp_save(bmp, "out/image.bmp"); // Save the bmp file
-
+                        
+                        if (mode == 3){
+                        char str_cmd[5];
+                        snprintf(str_cmd, 5, "%d",cmd);
+                                        
+                        if(write(sockfd, str_cmd, 5) < 0){
+                            error("ERROR writing to socket", mode);
+                        } // Save the bmp file
+                        bmp_save(bmp, "out/image.bmp");
                         refresh();
                         sleep(1);
                         for(int j = 0; j < COLS - BTN_SIZE_X - 2; j++) {
@@ -279,7 +286,8 @@ int main(int argc, char *argv[]){
             }
         }
 
-        else if (mode == 2){
+        else if (mode == 2)
+        {
             char input_string[5];
            
             //Read from the socket//   
@@ -289,7 +297,8 @@ int main(int argc, char *argv[]){
            
             int com = atoi(input_string);
 
-            if(com == KEY_LEFT || com == KEY_RIGHT || com == KEY_UP || com == KEY_DOWN){
+            if(com == KEY_LEFT || com == KEY_RIGHT || com == KEY_UP || com == KEY_DOWN)
+            {
                 sem_wait(semaphore);    // Wait for the semaphore
         
                 move_circle(com);   // Move the circle
@@ -318,6 +327,17 @@ int main(int argc, char *argv[]){
 
                 sem_post(semaphore2);     // Post the semaphore 
             }
+            else if (com == KEY_MOUSE) 
+            {
+                        bmp_save(bmp, "out/image.bmp");
+                        refresh();
+                        sleep(1);
+                        for(int j = 0; j < COLS - BTN_SIZE_X - 2; j++) {
+                            mvaddch(LINES - 1, j, ' '); // Clear the message on the screen
+                        }
+             }
+                
+            
         }
 
         
