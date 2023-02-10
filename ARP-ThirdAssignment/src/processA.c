@@ -285,7 +285,6 @@ int main(int argc, char *argv[]){
                 }
             }
         }
-
         else if (mode == 2)
         {
             char input_string[5];
@@ -329,15 +328,13 @@ int main(int argc, char *argv[]){
             }
             else if (com == KEY_MOUSE) 
             {
-                        bmp_save(bmp, "out/image.bmp");
-                        refresh();
-                        sleep(1);
-                        for(int j = 0; j < COLS - BTN_SIZE_X - 2; j++) {
-                            mvaddch(LINES - 1, j, ' '); // Clear the message on the screen
-                        }
-             }
-                
-            
+                bmp_save(bmp, "out/image.bmp");
+                refresh();
+                sleep(1);
+                for(int j = 0; j < COLS - BTN_SIZE_X - 2; j++) {
+                    mvaddch(LINES - 1, j, ' '); // Clear the message on the screen
+                }
+            }
         }
 
         
