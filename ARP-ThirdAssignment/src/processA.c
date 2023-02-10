@@ -282,8 +282,10 @@ int main(int argc, char *argv[]){
         else if (mode == 2){
             char input_string[5];
            
-            read(newsockfd,input_string,5) ; /*Read from the socket*/    
-            //TODO: check if the read was successful          
+            //Read from the socket//   
+            if(read(newsockfd,input_string,5) < 0){
+                error("ERROR reading from socket", mode);
+            }
            
             int com = atoi(input_string);
 
@@ -327,8 +329,9 @@ int main(int argc, char *argv[]){
                     char str_cmd[5];
                     snprintf(str_cmd, 5, "%d",cmd);
                                         
-                    write(sockfd, str_cmd, 5);
-                    //TODO: check if the write was successful
+                    if(write(sockfd, str_cmd, 5) < 0){
+                        error("ERROR writing to socket", mode);
+                    }
                 }
                 sem_wait(semaphore);    // Wait for the semaphore
 
