@@ -357,16 +357,19 @@ int main(int argc, char *argv[]){
 
         else if (mode == 2){
             char input_string[5];
-            recv(newsockfd, input_string, 1024, 0);
+           
+            read(newsockfd,input_string,5) ; /*Read from the socket*/              
+                /*Error*/
+           
             int com = atoi(input_string);
 
-            if(com == KEY_LEFT || com == KEY_RIGHT || com == KEY_UP || com == KEY_DOWN){
+            //if(com == KEY_LEFT || com == KEY_RIGHT || com == KEY_UP || com == KEY_DOWN){
                 //sem_wait(semaphore);    // Wait for the semaphore
                 
                 
                 
-                move_circle(com);   // Move the circle
-                draw_circle();  // Draw the circle
+            move_circle(com);   // Move the circle
+            draw_circle();  // Draw the circle
         
                 // cancel_blue_circle(radius,x,y, bmp);    // Cancel the circle
                 // for (int i = 0; i < 1600; i++) {
@@ -390,7 +393,7 @@ int main(int argc, char *argv[]){
                 // }
 
                 // sem_post(semaphore2);     // Post the semaphore 
-            }
+            //}
         }
 
         
@@ -399,14 +402,16 @@ int main(int argc, char *argv[]){
             if(cmd == KEY_LEFT || cmd == KEY_RIGHT || cmd == KEY_UP || cmd == KEY_DOWN) 
             {
                 
-                sem_wait(semaphore);    // Wait for the semaphore
+                //sem_wait(semaphore);    // Wait for the semaphore
                 
                 
                 if (mode == 3){
                 char str_cmd[5];
                 snprintf(str_cmd, 5, "%d",cmd);
-                send(sockfd, str_cmd, strlen(str_cmd), 0);
+                                    
+                write(sockfd, str_cmd, 5);
                 }
+                sem_wait(semaphore);    // Wait for the semaphore
 
                 move_circle(cmd);   // Move the circle
                 draw_circle();  // Draw the circle
