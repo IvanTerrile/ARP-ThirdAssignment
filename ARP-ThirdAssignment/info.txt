@@ -7,9 +7,13 @@ Miriam Anna Ruggero(4881702)
 Alessio Mura (4861320)
 Ivan Terrile (4851947)
 
-Second assignment of 'Advanced and Robot Programming' class concerns the development
+Third assignment of 'Advanced and Robot Programming' class concerns the development
 of an interactive simulator of a (simplified) typical vision system, able to track 
-an object in a 2-D plane.
+an object in a 2-D plane (from the previous assignment) but in this assignment you can 
+choose between three modes: 
+1) Normal mode, which allows you to simulate the project locally; 
+2) Server mode, which allows you to set the simulation of the project in server mode and be controlled remotely; 
+3) Client mode, to send commands remotely to the server and control the project simulation.
 
 The repository is organized as follows:
 - the `src` folder contains the source code for all the processes
@@ -32,7 +36,7 @@ $ bash ./run.sh
 
 
 ----------------------------------SIMULATOR BEHAVIOR-----------------------------------
-We simulate the creation of the moving image using an ncurses window (Process A). 
+In Normal mode we simulate the creation of the moving image using an ncurses window (Process A). 
 Using arrow keys, we will move a spot in a window to simulate the perception of the camera. 
 The spot that we will see by moving will produce the creation of a realistic RGB image
 (a circle) in the simulated, shared, video memory.We will use an 80 x 30 ncurses window.
@@ -51,3 +55,10 @@ image will be shown.
 
 There will be an additional function conducted by process A, useful for debugging. By pressing a
 button on the window with the mouse, a snapshot of the image memory will be saved on a .bmp file.
+
+In Server mode the process A listens on a port and waits for the connection with the Client to be made. 
+Then it displays in the windows ncurses of process A and process B, respectively the movement and trajectory of the spot.
+
+In Client mode the process A connects to the IP address of the server and the port on which the server is listening. 
+Then use the commands received via keyboard to move and display the spot on both the client and the server and the same 
+for the trajectory, which is displayed both on the ncurses window of process B on the client and on the server.
