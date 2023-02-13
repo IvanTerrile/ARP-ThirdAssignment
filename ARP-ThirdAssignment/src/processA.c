@@ -90,8 +90,6 @@ void cancel_blue_circle(int radius,int x,int y, bmpfile_t *bmp) {
 }
 
 int main(int argc, char *argv[]){
-    
-
     // Control to choose the execution mode
     printf("Select execution mode: \n 1. Normal mode \n 2. Server mode \n 3. Client mode \n");
 
@@ -260,13 +258,11 @@ int main(int argc, char *argv[]){
                 reset_console_ui(); // Re-draw UI
             }
         }
-
         else if(cmd == KEY_MOUSE) {
             if(getmouse(&event) == OK) {
                 if (mode == 1 || mode == 3){
                     if(check_button_pressed(print_btn, &event)) {
                         mvprintw(LINES - 1, 1, "Print button pressed"); // Print a message on the screen
-                        
                         
                         if (mode == 3){
                         char str_cmd[5];
@@ -286,6 +282,7 @@ int main(int argc, char *argv[]){
                 }
             }
         }
+
         else if (mode == 2)
         {
             char input_string[5];
