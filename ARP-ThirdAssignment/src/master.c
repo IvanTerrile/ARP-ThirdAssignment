@@ -5,7 +5,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include <time.h>
 #include <string.h>
 
 // Variables to store the PIDs

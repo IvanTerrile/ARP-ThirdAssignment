@@ -6,7 +6,6 @@
 #include <sys/shm.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
-#include <time.h>
 #include <bmpfile.h>
 #include <math.h>
 #include <semaphore.h>

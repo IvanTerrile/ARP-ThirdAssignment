@@ -9,7 +9,6 @@
 #include <sys/mman.h>
 #include <bmpfile.h>
 #include <math.h>
-#include <time.h>
 #include <semaphore.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -140,11 +139,10 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 
-///////////////////////////////////////////////START/////////////////////////////////////////////////
 
     /*Socket descriptor for client or server mode*/
     int sockfd, newsockfd;
-    int portno;//, clilen;
+    int portno;
 
     switch(mode){
         case 2:{
