@@ -264,14 +264,17 @@ int main(int argc, char *argv[]){
                     if(check_button_pressed(print_btn, &event)) {
                         mvprintw(LINES - 1, 1, "Print button pressed"); // Print a message on the screen
                         
-                        if (mode == 3){
-                        char str_cmd[5];
-                        snprintf(str_cmd, 5, "%d",cmd);
+                        // send the command to the server to print the image
+                        if (mode == 3)
+                        {
+                        char string_cmd[5];
+                        snprintf(string_cmd, 5, "%d",cmd);
                                         
-                        if(write(sockfd, str_cmd, 5) < 0){
+                        if(write(sockfd, string_cmd, 5) < 0){
                             error("ERROR writing to socket", mode);
                         }
-                        } // Save the bmp file
+                        }
+                        // Save the bmp file
                         bmp_save(bmp, "out/image.bmp");
                         refresh();
                         sleep(1);
@@ -285,14 +288,14 @@ int main(int argc, char *argv[]){
 
         else if (mode == 2)
         {
-            char input_string[5];
+            char cmd_string[5];
            
             //Read from the socket//   
-            if(read(newsockfd,input_string,5) < 0){
+            if(read(newsockfd,cmd_string,5) < 0){
                 error("ERROR reading from socket", mode);
             }
            
-            int com = atoi(input_string);
+            int com = atoi(cmd_string);
 
             if(com == KEY_LEFT || com == KEY_RIGHT || com == KEY_UP || com == KEY_DOWN)
             {
@@ -326,7 +329,8 @@ int main(int argc, char *argv[]){
             }
             else if (com == KEY_MOUSE) 
             {
-                mvprintw(LINES - 1, 1, "Screen taken!");
+                //save the image of bmp file in the server out folder
+                mvprintw(LINES - 1, 1, "Image taken!");
                 bmp_save(bmp, "out/image.bmp");
                 refresh();
                 sleep(1);
@@ -342,10 +346,10 @@ int main(int argc, char *argv[]){
             if(cmd == KEY_LEFT || cmd == KEY_RIGHT || cmd == KEY_UP || cmd == KEY_DOWN) 
             {
                 if (mode == 3){
-                    char str_cmd[5];
-                    snprintf(str_cmd, 5, "%d",cmd);
+                    char string_cmd[5];
+                    snprintf(string_cmd, 5, "%d",cmd);
                                         
-                    if(write(sockfd, str_cmd, 5) < 0){
+                    if(write(sockfd, string_cmd, 5) < 0){
                         error("ERROR writing to socket", mode);
                     }
                 }
