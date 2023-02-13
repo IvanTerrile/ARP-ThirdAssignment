@@ -274,6 +274,7 @@ int main(int argc, char *argv[]){
                                         
                         if(write(sockfd, str_cmd, 5) < 0){
                             error("ERROR writing to socket", mode);
+                        }
                         } // Save the bmp file
                         bmp_save(bmp, "out/image.bmp");
                         refresh();
