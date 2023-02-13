@@ -34,11 +34,11 @@ int spawn(const char * program, char * arg_list[]) {
 
 
 // Function to kill all the processes
-void killall() {
+void kill_all(int sig) {
   // Kill all the processes
   kill(pid_procA, SIGKILL);
   kill(pid_procB, SIGKILL);
-  return 0;
+  
 }
 
 
@@ -56,7 +56,7 @@ int main() {
   pid_procB = spawn("/usr/bin/konsole", arg_list_B);
 
   // Kill all the processes when Ctrl+C is pressed
-  signal(SIGINT, killall); 
+  signal(SIGINT, kill_all); 
 
   int status;  // Variable to store the status of the child processes
 
