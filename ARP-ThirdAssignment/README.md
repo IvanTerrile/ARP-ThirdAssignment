@@ -1,5 +1,5 @@
 # Third Assignment for the course "Advanced and Robot Programming" - UniGe
-### Developed by  [@Miryru](https://github.com/Miryru), [@alemuraa](https://github.com/alemuraa), [@Ivanterry00](https://github.com/Ivanterry00)
+### Developed by  [@Miryru](https://github.com/Miryru), [@alemuraa](https://github.com/alemuraa), [@Ivanterry00](https://github.com/IvanTerrile)
 Assignment given by the professor Renato Zaccaria for the course "Advanced and Robot Programming" - Robotics Engineering, at the University of Genova.
 
 The project uses as a basis the implementation of the Second Assignment. But in this implementation you can choose between three modes: 1) Normal Mode, which replicates the functionality of the second assignment; 2) Server Mode, which displays on a remote machine in the windows ncurses of process A and B, respectively the movement and trajectory performed through the client; 3) Client Mode, which via keyboard input moves the spot in the ncurses window of process A and the trajectory in the ncurses window of process B both in the local windows of the client and remote windows of the server. In addition, the client can take a picture of the spot and save it in the client and also in the server.
